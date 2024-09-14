@@ -1185,7 +1185,7 @@ function CEsetup()
         if events then
             local storeDataEvent = events:FindFirstChild("StoreData")
             if storeDataEvent then
-                storeDataEvent:Destroy()
+                storeDataEvent.Name = "__"
             end
         else
             print("Events folder not found in CarbonResource.")
@@ -2250,3 +2250,5 @@ local Button_script_Debugger = Tab4:CreateButton({
 })
 
 ArrayField:LoadConfiguration()
+
+
