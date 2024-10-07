@@ -1171,12 +1171,13 @@ function CEKill_ALL()
     end
 end
 
+local Events = {}
+
 function CEsetup()
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local CResource = ReplicatedStorage:WaitForChild("CarbonResource", 3)
     local Players = game:GetService("Players")
-    local Events = {}
-
+    
     Players.LocalPlayer.Character.Humanoid.Health = 0
     task.wait(0.3)
 
@@ -1243,31 +1244,14 @@ end
 
 local function CE_EX_ALL_KILL()
     -- 모든 플레이어의 위치를 가져옵니다.
-    -- CarbonResource와 Events 폴더를 가져옵니다.
-    if CEset then 
-        local eventsFolder = ReplicatedStorage:FindFirstChild("CarbonResource") and ReplicatedStorage.CarbonResource:FindFirstChild("Events")
-        local explosiveEvent = eventsFolder and eventsFolder:FindFirstChild("ExplosiveEvent")
+    if CEset then
         local allPlayers = Players:GetPlayers()
         for _, p in pairs(allPlayers) do
-            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            if p ~= game.Players.LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
                 local playerPosition = p.Character.HumanoidRootPart.Position
-                if explosiveEvent then
-                    explosiveEvent:FireServer(
-                        nil, -- 첫 번째 인자는 명확하지 않으므로 nil로 설정
-                        playerPosition, -- 모든 플레이어의 위치를 사용
-                        globalConfig.C4BlastPressure,
-                        globalConfig.C4BlastRadius,
-                        globalConfig.C4DestroyJointRadius,
-                        globalConfig.C4ExplosionType,
-                        globalConfig.C4DeletePart,
-                        character,
-                        nil,
-                        nil,
-                        nil,
-                        nil,
-                        "Auth", -- 인증 토큰, 원본 코드에 있는 값 사용
-                        nil
-                    )
+                -- ExplosiveEvent 발사 (전역 Events 사용)
+                if Events["ExplosiveEvent"] then
+                    Events["ExplosiveEvent"]:FireServer("Xsi-On-Top", playerPosition, 50000, 10, 10, nil, nil, nil, nil, nil, nil, nil, "Auth")
                 else
                     warn("ExplosiveEvent not found in Events folder.")
                 end
@@ -1275,6 +1259,7 @@ local function CE_EX_ALL_KILL()
         end
     end
 end
+
 
 local function CE_EX_Select_KILL()
     if CEset then 
