@@ -1047,6 +1047,23 @@ end
 ---------------------- Noclip 기능 ------------------------------
 ----------------------- ACS CE -----------------------------
 
+function ACS_ALL_KILL()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Event = ReplicatedStorage:WaitForChild("ACS_Engine", 3).Events.AcessId 
+    local Players = game:GetService("Players")
+
+    local key = Event:InvokeServer(Players.LocalPlayer.UserId) .. "-" .. tostring(Players.LocalPlayer.UserId)
+
+    local gun = game:FindFirstChild("ACS_Settings", true).Parent
+    local module = require(gun.ACS_Settings)
+
+    for idx, plr in pairs(Players:GetPlayers()) do
+        if plr ~= Players.LocalPlayer then
+            Event:InvokeServer(gun, plr.Character.Humanoid, 25, 1, module, { minDamageMod=150, DamageMod=150 }, nil, nil, key)
+        end
+    end
+end
+
 -- 마우스 클릭 이벤트를 저장할 변수
 local ACS_mouseClick_Breach
 
@@ -2029,8 +2046,9 @@ local Button_ACS_Player_fill = Tab2:CreateButton({
 })
 
 local Button_ACS_ALL_KILL = Tab2:CreateButton({
-    Name = "ACS ALL KILL (개발중)",
+    Name = "ACS ALL Kill",
     Callback = function()
+        ACS_ALL_KILL()
     end
 })
 
