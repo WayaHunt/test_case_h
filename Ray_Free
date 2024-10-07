@@ -1161,6 +1161,8 @@ local globalConfig = {
     C4DeletePart = false -- 필요한 값으로 설정
 }
 
+local Events = {}
+
 function CEKill_ALL()
     local Players = game:GetService("Players")
 
@@ -1170,8 +1172,6 @@ function CEKill_ALL()
         end
     end
 end
-
-local Events = {}
 
 function CEsetup()
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
