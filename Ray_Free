@@ -1161,38 +1161,30 @@ local globalConfig = {
     C4DeletePart = false -- 필요한 값으로 설정
 }
 
-function CEsetup()
-    -- 로컬 플레이어와 그 캐릭터를 가져옵니다.
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    
-    -- 캐릭터에서 Humanoid 객체를 찾습니다.
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    
-    -- Humanoid가 존재할 경우 체력을 0으로 설정하여 플레이어를 죽입니다.
-    if humanoid then
-        humanoid.Health = 0
-    else
-        warn("Humanoid not found in character.")
-    end
-    
-    wait(2)
-    
-    -- CarbonResource와 StoreData 이벤트를 찾아 제거합니다.
-    local carbonResource = game.ReplicatedStorage:FindFirstChild("CarbonResource")
-    if carbonResource then
-        local events = carbonResource:FindFirstChild("Events")
-        if events then
-            local storeDataEvent = events:FindFirstChild("StoreData")
-            if storeDataEvent then
-                storeDataEvent.Name = "__"
-            end
-        else
-            print("Events folder not found in CarbonResource.")
+function CEKill_ALL()
+    local Players = game:GetService("Players")
+
+    for idx, plr in pairs(Players:GetPlayers()) do
+        if plr ~= Players.LocalPlayer then
+            Events["DamageEvent"]:FireServer(plr.Character:FindFirstChild("Humanoid"), 100000, "Torso", {'nil','Auth','nil','nil'})
         end
-    else
-        print("CarbonResource를 찾을 수 없습니다.")
     end
+end
+
+function CEsetup()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local CResource = ReplicatedStorage:WaitForChild("CarbonResource", 3)
+    local Players = game:GetService("Players")
+    local Events = {}
+
+    Players.LocalPlayer.Character.Humanoid.Health = 0
+    task.wait(0.3)
+
+    for idx, remote in pairs(CResource.Events:GetChildren()) do
+        Events[remote.Name] = remote
+    end
+
+    print(Events["DamageEvent"])
     
     CEset = true -- CEsetup이 완료되면 CEset을 true로 설정합니다.
 end
@@ -2096,6 +2088,13 @@ local Button_ACS_Click_KILL = Tab2:CreateToggle({
 local Button_CE_ALL_KILL = Tab2:CreateButton({
     Name = "CE ALL KILL",
     Callback = function()
+        CEKill_ALL()
+    end
+})
+
+local Button_CE_Ex_ALL_KILL = Tab2:CreateButton({
+    Name = "CE 폭발 ALL KILL",
+    Callback = function()
         CE_EX_ALL_KILL()
     end
 })
@@ -2250,5 +2249,4 @@ local Button_script_Debugger = Tab4:CreateButton({
 })
 
 ArrayField:LoadConfiguration()
-
 
