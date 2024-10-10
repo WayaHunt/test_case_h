@@ -1210,15 +1210,7 @@ end
 local function setupMouseClickHandler()
 	if CEset then
 		-- CarbonResource와 Events 폴더를 가져옵니다.
-
-		local ResourceFolder = ReplicatedStorage:FindFirstChild("CarbonResource")
-		local eventsFolder = ResourceFolder:FindFirstChild("Events")
-		local explosiveEvent = eventsFolder:FindFirstChild("ExplosiveEvent")
-		
-		if explosiveEvent == nil then
-			print("이벤트 경로가 올바르지 않습니다")
-            return
-		end
+		local explosiveEvent = Events["ExplosiveEvent"]
 
 		-- 마우스 클릭 이벤트를 처리하는 함수
 		local function handleMouseClick()
@@ -1226,22 +1218,7 @@ local function setupMouseClickHandler()
 			-- 클릭된 좌표를 월드 좌표로 변환합니다.
 			local worldPosition = mouse.Hit.p
 			if explosiveEvent then
-				explosiveEvent:FireServer(
-					nil, -- 첫 번째 인자는 명확하지 않으므로 nil로 설정
-					worldPosition,
-					globalConfig.C4BlastPressure,
-					globalConfig.C4BlastRadius,
-					globalConfig.C4DestroyJointRadius,
-					globalConfig.C4ExplosionType,
-					globalConfig.C4DeletePart,
-					character,
-					nil,
-					nil,
-					nil,
-					nil,
-					"Auth", -- 인증 토큰, 원본 코드에 있는 값 사용
-					nil
-				)
+                Events["ExplosiveEvent"]:FireServer("Xsi-On-Top", worldPosition, 50000, 10, 10, nil, nil, nil, nil, nil, nil,nil, "Auth")
 			else
 				warn("ExplosiveEvent not found in Events folder.")
 			end
