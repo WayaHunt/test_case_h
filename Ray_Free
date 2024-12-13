@@ -135,6 +135,23 @@ local function gangchulCuff()
     end
 end
 
+local function gangchulUnCuff()
+    local ohString1 = "UnCuff"
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        if player ~= game:GetService("Players").LocalPlayer and player then
+            local CuffItem = player.Backpack:FindFirstChild(utf8.char(49688, 44049))
+            if CuffItem then
+                if not CuffItem:FindFirstChild("RemoteEvent") then
+                    local RemoteEvent = Instance.new("RemoteEvent")
+                    RemoteEvent.Name = "RemoteEvent"
+                    RemoteEvent.Parent = CuffItem
+                end
+                CuffItem.RemoteEvent:FireServer(ohString1, player.Character.HumanoidRootPart)
+            end
+        end
+    end
+end
+
 ------------------------ 프리즌 라이프 -------------------------------
 local function Kick_Server()
     -- AK-47 아이템을 workspace에서 찾음
@@ -2287,11 +2304,20 @@ local Input_Lang_Cuff_Name = Tab3:CreateInput({
     end
 })
 
+Tab3:CreateSection("강철부대")
+
 Tab3:CreateButton({
     Name = "강철부대 All 수갑 [가까이 가야함]",
     Callback = function()
         showMessage("강철부대 All 수갑 [가까이 가야함]")
         gangchulCuff()
+    end
+})
+
+Tab3:CreateButton({
+    Name = "강철부대 수갑 풀기",
+    Callback = function()
+        gangchulUnCuff()
     end
 })
 
