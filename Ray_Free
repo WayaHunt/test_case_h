@@ -2223,6 +2223,8 @@ local Input_peng_Cuff_Name = Tab2:CreateInput({
 ---- 프리즌 라이프, 에임봇 ----
 local Tab11 = Window:CreateTab("프리즌 라이프 & 에임봇")
 
+Tab11:CreateSection("프리즌 라이프")
+
 Tab11:CreateButton({
     Name = "AK-47 Get",
     Callback = function()
