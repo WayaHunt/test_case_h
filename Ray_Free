@@ -117,6 +117,23 @@ local function findPlayerDisplayName(identifier)
         end
     end
 end
+------------------------ 강철 부대 ----------------------------
+local function gangchulCuff()
+    local ohString1 = "Cuff"
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        if player ~= game:GetService("Players").LocalPlayer and player then
+            local CuffItem = player.Backpack:FindFirstChild(utf8.char(49688, 44049))
+            if CuffItem then
+                if not CuffItem:FindFirstChild("RemoteEvent") then
+                    local RemoteEvent = Instance.new("RemoteEvent")
+                    RemoteEvent.Name = "RemoteEvent"
+                    RemoteEvent.Parent = CuffItem
+                end
+                CuffItem.RemoteEvent:FireServer(ohString1, player.Character.HumanoidRootPart)
+            end
+        end
+    end
+end
 
 ------------------------ 프리즌 라이프 -------------------------------
 local function teleport_f()
@@ -1842,10 +1859,10 @@ end
 
 ---------------------- 부대게임, 샤크부대 ------------------------------
 -- 메시지를 띄우기 위한 함수
-local function showMessage()
+local function showMessage(mass)
     Rayfield:Notify({
         Title = "알림",  -- 알림 창의 제목
-        Content = "이것은 메시지 예제입니다!",  -- 알림 창에 표시될 내용
+        Content = tostring(mass) .. "이(가) 실행 되었습니다!",  -- 알림 창에 표시될 내용
         Duration = 5,  -- 알림이 표시될 시간(초 단위)
     })
 end
@@ -2100,6 +2117,30 @@ local Input_peng_Cuff_Name = Tab2:CreateInput({
     end
 })
 
+---- 프리즌 라이프, 에임봇 ----
+local Tab11 = Window:CreateTab("프리즌 라이프 & 에임봇")
+
+Tab11:CreateButton({
+    Name = "AK-47 Get",
+    Callback = function()
+        teleport_f()
+    end
+})
+
+Tab11:CreateButton({
+    Name = "All Kill [가까이 가야함]",
+    Callback = function()
+        attackAllPlayers()
+    end
+})
+
+Tab11:CreateButton({
+    Name = "Aimbot [만들었는데 없어짐 ㅇㅂㅇ]",
+    Callback = function()
+        
+    end
+})
+
 ---------------------- 부대 스크립트 모음 탭 3 ------------------------
 local Tab3 = Window:CreateTab("부대 스크립트 모음") -- 'Tab' 변수에 새 탭을 생성
 
@@ -2128,7 +2169,14 @@ local Input_Lang_Cuff_Name = Tab3:CreateInput({
     end
 })
 
--- 섹션 2: 밥밥부대
+Tab3:CreateButton({
+    Name = "강철부대 All 수갑 [가까이 가야함]",
+    Callback = function()
+        gangchulCuff()
+    end
+})
+
+-- 섹션 2: 밥밥 부대
 local Section3_2 = Tab3:CreateSection("밥밥 부대")
 
 local Toggle_babbab_ALL_KILL = Tab3:CreateToggle({
@@ -2229,4 +2277,7 @@ local Button_script_Debugger = Tab4:CreateButton({
 })
 
 ArrayField:LoadConfiguration()
+
+
+
 
