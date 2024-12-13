@@ -1879,8 +1879,10 @@ local Toggle_Fly = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
+            showMessage("Fly :" .. Value)
             startFlying()-- 비행 활성화 코드
        else
+            showMessage("Fly :" .. Value)
             stopFlying()-- 비행 비활성화 코드
        end
    end,
@@ -1891,6 +1893,7 @@ local Toggle_Noclip = Tab:CreateToggle({
    CurrentValue = false,
    Flag = "Toggle",
    Callback = function(Value)
+        showMessage("Noclip : " .. Value)
         setNoclip(Value)
    end,
 })
@@ -1901,6 +1904,7 @@ local Toggle_Spin = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
         if Value then
+            showMessage("Spin : " .. Value)
             startSpinning()
         else
             stopSpinning()
@@ -1914,12 +1918,14 @@ local Toggle_ESP = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
+            showMessage("ESP : " .. Value)
             espEnabled = true
             while espEnabled do
                 applyESP()-- ESP 활성화 코드
                 wait(1)
             end
        else
+            showMessage("ESP : " .. Value)
             espEnabled = false
             removeESP()-- ESP 비활성화 코드
        end
@@ -1929,6 +1935,7 @@ local Toggle_ESP = Tab:CreateToggle({
 local Button_Kick_All = Tab:CreateButton({
     Name = "모든 플레이어 날리기 (플레이어 끼리 통과되면 안 됨)",
     Callback = function()
+        showMessage("Fling")
         loadstring(game:HttpGet("https://pastebin.com/raw/zqyDSUWX"))()
     end
 })
@@ -1958,6 +1965,7 @@ local Input_FlySpeed = Tab:CreateSlider({
     Suffix = "%",
     CurrentValue = 5,
     Callback = function(value)
+        showMessage("Speed : ".. value)
         flySpeed = value-- Fly speed 변경 코드
     end
 })
@@ -1999,9 +2007,11 @@ local Toggle_ACS_Block = Tab2:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
-           ACS_Click_Breach_ON(ACS_X, ACS_Y, ACS_Z)
+            showMessage("ACS_Breach : " .. Value)
+            ACS_Click_Breach_ON(ACS_X, ACS_Y, ACS_Z)
        else
-           ACS_Click_Breach_OFF()
+            showMessage("ACS_Breach : " .. Value)
+            ACS_Click_Breach_OFF()
        end
    end,
 })
@@ -2035,6 +2045,7 @@ local Input_ACS_Z = Tab2:CreateInput({
 local Button_ACS_Player_fill = Tab2:CreateButton({
     Name = "ACS 모든 플레이어 내보내기 (벽 설치)",
     Callback = function()
+        showMessage("ACS_All_Breach")
         ACS_Player_fli()
     end
 })
@@ -2042,6 +2053,7 @@ local Button_ACS_Player_fill = Tab2:CreateButton({
 local Button_ACS_ALL_KILL = Tab2:CreateButton({
     Name = "ACS ALL Kill",
     Callback = function()
+        showMessage("All Kill")
         ACS_ALL_KILL()
     end
 })
@@ -2065,6 +2077,7 @@ local Section2_2 = Tab2:CreateSection("CE Engine")
 local Button_ACS_Block = Tab2:CreateButton({
     Name = "CE 이벤트 경로 설정 ( 반드시 먼저 하세요 )",
     Callback = function()
+        showMessage("CE Event SetUp")
         CEsetup()
     end
 })
@@ -2079,6 +2092,7 @@ local Button_ACS_Click_KILL = Tab2:CreateToggle({
         else
             cancelMouseEvents()
         end
+        showMessage("CE_Click : " .. Value)
     end,
 })
 
@@ -2086,6 +2100,7 @@ local Button_CE_ALL_KILL = Tab2:CreateButton({
     Name = "CE ALL KILL",
     Callback = function()
         CEKill_ALL()
+        showMessage("CE_All Kill")
     end
 })
 
@@ -2093,6 +2108,7 @@ local Button_CE_Ex_ALL_KILL = Tab2:CreateButton({
     Name = "CE 폭발 ALL KILL",
     Callback = function()
         CE_EX_ALL_KILL()
+        showMessage("CE_Ex_AllKill")
     end
 })
 
@@ -2106,6 +2122,7 @@ local Toggle_CE_Select_KILL = Tab2:CreateToggle({
         else
             CE_EX_target_Kill_sw = false
         end
+        showMessage("CE_EX_target_Kill : " .. Value)
     end,
 })
 
@@ -2123,6 +2140,7 @@ local Tab11 = Window:CreateTab("프리즌 라이프 & 에임봇")
 Tab11:CreateButton({
     Name = "AK-47 Get",
     Callback = function()
+        showMessage("AK-47 Get")
         teleport_f()
     end
 })
@@ -2130,6 +2148,7 @@ Tab11:CreateButton({
 Tab11:CreateButton({
     Name = "All Kill [가까이 가야함]",
     Callback = function()
+        showMessage("All Kill")
         while wait(0.03) do
             attackAllPlayers()
         end
@@ -2139,7 +2158,7 @@ Tab11:CreateButton({
 Tab11:CreateButton({
     Name = "Aimbot [만들었는데 없어짐 ㅇㅂㅇ]",
     Callback = function()
-        
+        showMessage("Aimbot이 실행 될까말까")
     end
 })
 
@@ -2152,6 +2171,7 @@ local Section3_1 = Tab3:CreateSection("랭 부대")
 local Button_Lang_ALL_Cuff = Tab3:CreateButton({
     Name = "ALL Cuff",
     Callback = function()
+        showMessage("ALL Cuff")
         cuffAllPlayers()-- 함수 채우기
     end
 })
@@ -2159,6 +2179,7 @@ local Button_Lang_ALL_Cuff = Tab3:CreateButton({
 local Button_Lang_Select_Cuff = Tab3:CreateButton({
     Name = "Select Cuff",
     Callback = function()
+        showMessage("Select Cuff")
         cuffSpecificPlayer()-- 함수 채우기
     end
 })
@@ -2174,6 +2195,7 @@ local Input_Lang_Cuff_Name = Tab3:CreateInput({
 Tab3:CreateButton({
     Name = "강철부대 All 수갑 [가까이 가야함]",
     Callback = function()
+        showMessage("강철부대 All 수갑 [가까이 가야함]")
         gangchulCuff()
     end
 })
@@ -2192,6 +2214,7 @@ local Toggle_babbab_ALL_KILL = Tab3:CreateToggle({
             isGlockAllKillEnabled = false
             stopGlockAllKill() -- 글록올킬 끄는 스크립트
         end
+        showMessage("글록 ALL KILL (글록필요) : " .. Value)
     end,
 })
 
@@ -2204,6 +2227,7 @@ local Toggle_babbab_Cuff = Tab3:CreateToggle({
         else
             babbab_Kick_Cuff_OFF()-- 수갑 끄는 스크립트
         end
+        showMessage("세계밖으로 떨구기 : " .. Value)
     end,
 })
 
@@ -2216,6 +2240,7 @@ local Toggle_babbab_jak = Tab3:CreateToggle({
         else
             adjustWeaponSize(false)-- 작대기 줄이는 스크립트
         end
+        showMessage("작대기 크기 키우기 : " .. Value)
     end,
 })
 
@@ -2223,6 +2248,7 @@ local Button_babbab_jak_tel = Tab3:CreateButton({
     Name = "작대기 위치로 텔레포트",
     Callback = function()
         teleportToPosition(targetPosition)-- 함수 채우기
+        showMessage("작대기 위치로 텔레포트")
     end
 })
 
@@ -2231,12 +2257,16 @@ local Section3_3 = Tab3:CreateSection("태비 부대")
 
 local Button_tebi_jak_give = Tab3:CreateButton({
     Name = "모든 총 가져오기",
-    Callback = function() Toggle_Tebi_tool_giver_f() end-- 함수 채우기
+    Callback = function() Toggle_Tebi_tool_giver_f() 
+        showMessage("모든 총 가져오기")
+    end-- 함수 채우기
 })
 
 local Button_tebi_jak_vote = Tab3:CreateButton({
     Name = "모든 플레이어에게 투표창 띄우기",
-    Callback = function() Toggle_Tebi_vote_f() end-- 함수 채우기
+    Callback = function() Toggle_Tebi_vote_f() 
+        showMessage("투표창 띄우기")
+    end-- 함수 채우기
 })
 
 -- 섹션 4: 샤크부대
@@ -2244,7 +2274,9 @@ local Section3_4 = Tab3:CreateSection("샤크 부대")
 
 local Button_Sak_ALL_Cuff = Tab3:CreateButton({
     Name = "ALL Cuff",
-    Callback = function() cuffAllPlayersa() end-- 함수 채우기
+    Callback = function() cuffAllPlayersa() 
+        showMessage("ALL Cuff")
+    end-- 함수 채우기
 })
 
 ---------------------- 스크립트 모음 탭 4 ------------------------
