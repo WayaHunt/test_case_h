@@ -1879,10 +1879,10 @@ local Toggle_Fly = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
-            showMessage("Fly :" .. Value)
+            showMessage("Fly :" .. tostring(Value))
             startFlying()-- 비행 활성화 코드
        else
-            showMessage("Fly :" .. Value)
+            showMessage("Fly :" .. tostring(Value))
             stopFlying()-- 비행 비활성화 코드
        end
    end,
@@ -1893,7 +1893,7 @@ local Toggle_Noclip = Tab:CreateToggle({
    CurrentValue = false,
    Flag = "Toggle",
    Callback = function(Value)
-        showMessage("Noclip : " .. Value)
+        showMessage("Noclip : " .. tostring(Value))
         setNoclip(Value)
    end,
 })
@@ -1904,7 +1904,7 @@ local Toggle_Spin = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
         if Value then
-            showMessage("Spin : " .. Value)
+            showMessage("Spin : " .. tostring(Value))
             startSpinning()
         else
             stopSpinning()
@@ -1918,14 +1918,14 @@ local Toggle_ESP = Tab:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
-            showMessage("ESP : " .. Value)
+            showMessage("ESP : " .. tostring(Value))
             espEnabled = true
             while espEnabled do
                 applyESP()-- ESP 활성화 코드
                 wait(1)
             end
        else
-            showMessage("ESP : " .. Value)
+            showMessage("ESP : " .. tostring(Value))
             espEnabled = false
             removeESP()-- ESP 비활성화 코드
        end
@@ -1965,7 +1965,7 @@ local Input_FlySpeed = Tab:CreateSlider({
     Suffix = "%",
     CurrentValue = 5,
     Callback = function(value)
-        showMessage("Speed : ".. value)
+        showMessage("Speed : ".. tostring(value))
         flySpeed = value-- Fly speed 변경 코드
     end
 })
@@ -2007,10 +2007,10 @@ local Toggle_ACS_Block = Tab2:CreateToggle({
    Flag = "Toggle",
    Callback = function(Value)
        if Value then
-            showMessage("ACS_Breach : " .. Value)
+            showMessage("ACS_Breach : " .. tostring(Value))
             ACS_Click_Breach_ON(ACS_X, ACS_Y, ACS_Z)
        else
-            showMessage("ACS_Breach : " .. Value)
+            showMessage("ACS_Breach : " .. tostring(Value))
             ACS_Click_Breach_OFF()
        end
    end,
@@ -2092,7 +2092,7 @@ local Button_ACS_Click_KILL = Tab2:CreateToggle({
         else
             cancelMouseEvents()
         end
-        showMessage("CE_Click : " .. Value)
+        showMessage("CE_Click : " .. tostring(Value))
     end,
 })
 
@@ -2122,7 +2122,7 @@ local Toggle_CE_Select_KILL = Tab2:CreateToggle({
         else
             CE_EX_target_Kill_sw = false
         end
-        showMessage("CE_EX_target_Kill : " .. Value)
+        showMessage("CE_EX_target_Kill : " .. tostring(Value))
     end,
 })
 
@@ -2214,7 +2214,7 @@ local Toggle_babbab_ALL_KILL = Tab3:CreateToggle({
             isGlockAllKillEnabled = false
             stopGlockAllKill() -- 글록올킬 끄는 스크립트
         end
-        showMessage("글록 ALL KILL (글록필요) : " .. Value)
+        showMessage("글록 ALL KILL (글록필요) : " .. tostring(Value))
     end,
 })
 
@@ -2227,7 +2227,7 @@ local Toggle_babbab_Cuff = Tab3:CreateToggle({
         else
             babbab_Kick_Cuff_OFF()-- 수갑 끄는 스크립트
         end
-        showMessage("세계밖으로 떨구기 : " .. Value)
+        showMessage("세계밖으로 떨구기 : " .. tostring(Value))
     end,
 })
 
@@ -2240,7 +2240,7 @@ local Toggle_babbab_jak = Tab3:CreateToggle({
         else
             adjustWeaponSize(false)-- 작대기 줄이는 스크립트
         end
-        showMessage("작대기 크기 키우기 : " .. Value)
+        showMessage("작대기 크기 키우기 : " .. tostring(Value))
     end,
 })
 
