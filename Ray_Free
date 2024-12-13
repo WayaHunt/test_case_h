@@ -226,12 +226,60 @@ local function getTargetPlayers()
     return targetPlayers
 end
 
-local function attackAllPlayers()
+-- 공격 루프 관리 변수
+local attacking = false
+
+-- 공격 함수
+local function attackAllPlayers(onoff)
+    -- ReplicatedStorage와 공격 이벤트 가져오기
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local meleeEvent = ReplicatedStorage:WaitForChild("meleeEvent")
-    local targetPlayers = getTargetPlayers()
-    for _, player in pairs(targetPlayers) do
-        meleeEvent:FireServer(player)
+
+    -- 공격 시작 또는 중지 설정
+    attacking = onoff
+
+    if not attacking then
+        return -- 공격 중지
     end
+
+    -- 대상 플레이어 목록 가져오기
+    local players = game:GetService("Players"):GetPlayers()
+    local localPlayer = game:GetService("Players").LocalPlayer
+    local character = localPlayer.Character
+
+    if not (character and character:FindFirstChild("HumanoidRootPart")) then
+        return -- 로컬 플레이어가 유효하지 않을 경우 종료
+    end
+
+    -- 모든 플레이어를 대상으로 공격 루프
+    while true do
+        if not attacking then
+            break -- 공격 중지
+        end
+
+        for _, player in pairs(players) do
+            if not attacking then
+                break -- 공격 중지
+            end
+
+            if player ~= localPlayer and player.Character and player.Character:FindFirstChild("Humanoid") then
+                local targetCharacter = player.Character
+                local targetHumanoid = targetCharacter.Humanoid
+
+                if targetHumanoid.Health > 0 and targetCharacter:FindFirstChild("HumanoidRootPart") then
+                    -- 로컬 플레이어를 타겟 플레이어 근처로 텔레포트
+                    character.HumanoidRootPart.CFrame = targetCharacter.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3) -- 약간 뒤로 이동
+
+                    -- 공격 이벤트 발송
+                    meleeEvent:FireServer(player)
+                end
+            end
+        end
+        wait(0.009) -- 이벤트 발송 간격
+    end
+
+    -- 공격 종료
+    attacking = false
 end
 ------------------------ 프리즌 라이프 -------------------------------
 --------------------------------------- 은신 기능 ----------------------------------------------------
@@ -2191,13 +2239,12 @@ Tab11:CreateButton({
     end
 })
 
-Tab11:CreateButton({
-    Name = "All Kill [가까이 가야함]",
-    Callback = function()
-        showMessage("All Kill")
-        while wait(0.03) do
-            attackAllPlayers()
-        end
+Tab11:CreateToggle({
+    Name = "All Kill",
+    Flag = "Toggle",
+    Callback = function(Value)
+        showMessage("All Kill : " .. tostring(Value))
+        attackAllPlayers(Value)
     end
 })
 
