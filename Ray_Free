@@ -2130,7 +2130,9 @@ Tab11:CreateButton({
 Tab11:CreateButton({
     Name = "All Kill [가까이 가야함]",
     Callback = function()
-        attackAllPlayers()
+        while wait(0.03) do
+            attackAllPlayers()
+        end
     end
 })
 
