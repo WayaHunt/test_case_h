@@ -136,6 +136,44 @@ local function gangchulCuff()
 end
 
 ------------------------ 프리즌 라이프 -------------------------------
+local function Kick_Server()
+    -- AK-47 아이템을 workspace에서 찾음
+    local akItem = workspace[game.Players.LocalPlayer.Name]:FindFirstChild("AK-47")
+    if not akItem then
+        warn("AK-47 not found in workspace")
+        return
+    end
+
+    local gunStatesModule = akItem:FindFirstChild("GunStates")
+    if not gunStatesModule then
+        warn("GunStates ModuleScript not found in AK-47")
+        return
+    end
+
+    -- GunStates 모듈스크립트에서 반환된 테이블 수정
+    local gunStates = require(gunStatesModule)
+    gunStates.Damage = 1000
+    gunStates.Description = "Remember to put a description here BEFORE the game is published -Me"
+    gunStates.MaxAmmo = 100000000
+    gunStates.CurrentAmmo = 10000000
+    gunStates.StoredAmmo = 600
+    gunStates.FireRate = 0.00000001
+    gunStates.AutoFire = true
+    gunStates.Range = 100000000
+    gunStates.Spread = 14
+    gunStates.ReloadTime = 0.01
+    gunStates.Bullets = 0
+    gunStates.ReloadAnim = "ReloadMagazine"
+    gunStates.ShootAnim = "ShootBullet"
+    gunStates.HoldAnim = "Hold"
+    gunStates.FireSoundId = "http://www.roblox.com/asset/?id=2934888736"
+    gunStates.SecondarySoundId = nil
+    gunStates.ReloadSoundId = "http://www.roblox.com/asset/?id=2934887229"
+
+    -- 수정된 GunStates 테이블을 ReloadEvent로 서버에 전달
+    game:GetService("ReplicatedStorage").ReloadEvent:FireServer(akItem)
+end
+
 local function teleport_f()
     local character = Player.Character or Player.CharacterAdded:Wait()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
@@ -2142,6 +2180,14 @@ Tab11:CreateButton({
     Callback = function()
         showMessage("AK-47 Get")
         teleport_f()
+    end
+})
+
+Tab11:CreateButton({
+    Name = "서버 터뜨리기 [AK들고 실행 후에 꾹 누르면 터짐]",
+    Callback = function()
+        showMessage("Kick_Server")
+        Kick_Server()
     end
 })
 
