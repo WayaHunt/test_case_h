@@ -1,4 +1,4 @@
-getgenv().XSI_LOADED = nil
+getgenv().xsi_LOADED = nil
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/xsinew/scripts/main/Fluent.lua"))()
 local crypt = loadstring(game:HttpGet("https://raw.githubusercontent.com/jqqqi/Lua-HMAC-SHA256/master/sha256.lua"))()
 local RunService= game:GetService("RunService")
@@ -8,7 +8,7 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
 local WorkingPlaces = {
-	["18260029786"] = {
+	["18990237819"] = {
 		"팽부대",
 		nil
 	},
@@ -27,7 +27,7 @@ local Options = Fluent.Options
 
 local Window = Fluent:CreateWindow({
 	Title = "Dynamic Script",
-	SubTitle = "by xsinew",
+	SubTitle = "by Waya",
 	TabWidth = 160,
 	Size = UDim2.fromOffset(560, 400),
 	Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
@@ -64,7 +64,7 @@ function HideMe(char)
 
 	local RealCharacter = char
 	local fakeCharacter = Players:CreateHumanoidModelFromUserId(1700571242)
-	
+
 	fakeCharacter.Name = LocalPlayer.Name
 	LocalPlayer.Character = fakeCharacter
 	fakeCharacter.Parent = workspace 
@@ -119,29 +119,29 @@ function LoadACS()
 	}
 	local CURRENT_KEY = Enum.KeyCode.R
 	local ON_PLACEBLOCK
-	
+
 	local AcessId = Remotes:FindFirstChild("AcessId") and Remotes["AcessId"]:InvokeServer(LocalPlayer.UserId) or Remotes["encrypted2436"]:InvokeServer(LocalPlayer.UserId)
 	local DamageFunction = Remotes:FindFirstChild("Damage") or Remotes["encrypted6975"]
 	local BuildEvent = Remotes:FindFirstChild("Breach") or Remotes["encrypted0092"]
-	
+
 	local method = {
-	    minDamageMod=150,
-	    DamageMod=150
+		minDamageMod=150,
+		DamageMod=150
 	}
-	
+
 	local function TakeDamage(human, st)
-	    local gun = ReplicatedStorage:FindFirstChild("ACS_Settings", true).Parent
-	    DamageFunction:InvokeServer(gun, human, 25, 1, require(gun.ACS_Settings), st, nil, nil, AcessId .. "-" .. tostring(LocalPlayer.UserId))
+		local gun = ReplicatedStorage:FindFirstChild("ACS_Settings", true).Parent
+		DamageFunction:InvokeServer(gun, human, 25, 1, require(gun.ACS_Settings), st, nil, nil, AcessId .. "-" .. tostring(LocalPlayer.UserId))
 	end
-	
+
 	local function Kill(target)
-	    local char = target.Character
-	    if not char then return end
-	    
-	    local human = char:FindFirstChild("Humanoid")
-	    if not human or human.Health < 1 then return end
-	    
-	    TakeDamage(human, method)
+		local char = target.Character
+		if not char then return end
+
+		local human = char:FindFirstChild("Humanoid")
+		if not human or human.Health < 1 then return end
+
+		TakeDamage(human, method)
 	end
 
 	local function PlaceBlock(Pos, Size)
@@ -155,91 +155,91 @@ function LoadACS()
 		Title = "ACS엔진",
 		Content = "ACS엔진을 찾았습니다.\n아래 기능들을 사용할 수 있습니다."
 	})
-	
+
 	Main:AddButton({
-	    Title = "Kill All",
-	    Description = "모든 플레이어를 죽입니다",
-	    Callback = function()
-	        for idx, plr in pairs(Players:GetPlayers()) do
-	            if plr ~= LocalPlayer then
-	                task.spawn(Kill, plr)
-	            end
-	        end
-	    end
+		Title = "Kill All",
+		Description = "모든 플레이어를 죽입니다",
+		Callback = function()
+			for idx, plr in pairs(Players:GetPlayers()) do
+				if plr ~= LocalPlayer then
+					task.spawn(Kill, plr)
+				end
+			end
+		end
 	})
-	
+
 	Main:AddButton({
-	    Title = "Kill Others",
-	    Description = "플레이어를 제외한 다른 객체들을 죽입니다.",
-	    Callback = function()
-            for idx,obj in pairs(workspace:GetDescendants()) do pcall(function()
-                    if obj:IsA("Humanoid") and not Players:FindFirstChild(obj.Parent.Name) then
-                        task.spawn(TakeDamage, obj, method)
-                    end
-                end)
-            end
-	    end
+		Title = "Kill Others",
+		Description = "플레이어를 제외한 다른 객체들을 죽입니다.",
+		Callback = function()
+			for idx,obj in pairs(workspace:GetDescendants()) do pcall(function()
+					if obj:IsA("Humanoid") and not Players:FindFirstChild(obj.Parent.Name) then
+						task.spawn(TakeDamage, obj, method)
+					end
+				end)
+			end
+		end
 	})
 
 	local INPUT_X_SIZE = Main:AddInput("INPUT_X_SIZE", {
-        Title = "블럭 X사이즈",
-        Default = "10",
-        Placeholder = "최소크기 3",
-        Numeric = false,
-        Finished = false,
-        Callback = function(Value)
+		Title = "블럭 X사이즈",
+		Default = "10",
+		Placeholder = "최소크기 3",
+		Numeric = false,
+		Finished = false,
+		Callback = function(Value)
 			local Value = tonumber(Value)
-            if Value < 3 then
+			if Value < 3 then
 				Value = 3
 			end
 			rawset(CURRENT_SIZE, "X", Value)
-        end
-    })
+		end
+	})
 
 	local INPUT_Y_SIZE = Main:AddInput("INPUT_Y_SIZE", {
-        Title = "블럭 Y사이즈",
-        Default = "10",
-        Placeholder = "최소크기 3",
-        Numeric = false,
-        Finished = false,
-        Callback = function(Value)
+		Title = "블럭 Y사이즈",
+		Default = "10",
+		Placeholder = "최소크기 3",
+		Numeric = false,
+		Finished = false,
+		Callback = function(Value)
 			local Value = tonumber(Value)
-            if Value < 3 then
+			if Value < 3 then
 				Value = 3
 			end
 			rawset(CURRENT_SIZE, "Y", Value)
-        end
-    })
+		end
+	})
 
 	local INPUT_Z_SIZE = Main:AddInput("INPUT_Z_SIZE", {
-        Title = "블럭 Z사이즈",
-        Default = "10",
-        Placeholder = "최소크기 3",
-        Numeric = false,
-        Finished = false,
-        Callback = function(Value)
+		Title = "블럭 Z사이즈",
+		Default = "10",
+		Placeholder = "최소크기 3",
+		Numeric = false,
+		Finished = false,
+		Callback = function(Value)
 			local Value = tonumber(Value)
-            if Value < 3 then
+			if Value < 3 then
 				Value = 3
 			end
 			rawset(CURRENT_SIZE, "Z", Value)
-        end
-    })
+		end
+	})
 
 	local TOGGLE_PLACEBLOCK = Main:AddToggle("TOGGLE_PLACEBLOCK", {Title = "Toggle", Default = false })
 
-    TOGGLE_PLACEBLOCK:OnChanged(function()
-        ON_PLACEBLOCK = Options.TOGGLE_PLACEBLOCK.Value
-    end)
+	TOGGLE_PLACEBLOCK:OnChanged(function()
+		ON_PLACEBLOCK = Options.TOGGLE_PLACEBLOCK.Value
+	end)
 
 	local KEYBIND_PLACE = Main:AddKeybind("KEYBIND_PLACE", {
-        Title = "블럭설치키",
-        Mode = "Hold",
-        Default = "R",
-        ChangedCallback = function(New)
-            CURRENT_KEY = New
-        end
-    })
+		Title = "블럭설치키",
+		Mode = "Hold",
+		Default = "R",
+		ChangedCallback = function(New)
+			CURRENT_KEY = New
+		end
+	})
 
 	game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
 		if gameProcessedEvent or not ON_PLACEBLOCK then return end
@@ -259,17 +259,17 @@ function LoadCarbon()
 		local key = {"nil", "Auth", "nil", "nil"}
 		Remotes["DamageEvent"]:FireServer(humanoid, 100, "Head", key)
 	end
-	
+
 	function ExplodePos(pos, justLag)
 		if justLag == true then
 			print("JustLag")
-			Remotes["ExplosiveEvent"]:FireServer("Xsi-On-Top", pos, 0, 0, 0, nil, nil, nil, nil, nil, nil,nil, "Auth", nil)
+			Remotes["ExplosiveEvent"]:FireServer("xsi-On-Top", pos, 0, 0, 0, nil, nil, nil, nil, nil, nil,nil, "Auth", nil)
 		else
 			print("Kill")
-			Remotes["ExplosiveEvent"]:FireServer("Xsi-On-Top", pos, 500000, 120, 120, nil, nil, nil, nil, nil, nil,nil, "Auth", nil)
+			Remotes["ExplosiveEvent"]:FireServer("xsi-On-Top", pos, 500000, 120, 120, nil, nil, nil, nil, nil, nil,nil, "Auth", nil)
 		end
 	end
-	
+
 	function MouseEvent()
 		local targetP = Mouse.Target
 		local target = CheckPlayer(targetP)
@@ -285,7 +285,7 @@ function LoadCarbon()
 		if not carbonResource then
 			return
 		end
-	
+
 		for idx, player in pairs(Players:GetPlayers()) do
 			local char = player.Character
 			if player ~= LocalPlayer and char then
@@ -293,7 +293,7 @@ function LoadCarbon()
 					Remotes["DamageEvent"]:FireServer(char:FindFirstChildOfClass("Humanoid"), math.huge, "Head", {"nil", "Auth", "nil", "nil"})
 				end, function(err)
 					warn([[
-		건킷종합스크 - 크시
+		건킷종합스크 - 와야
 	
 		오류: ]]..err)
 				end)
@@ -304,12 +304,12 @@ function LoadCarbon()
 			Remotes["DamageEvent"]:FireServer(char:FindFirstChildOfClass("Humanoid"), math.huge, "Head", {"nil", "Auth", "nil", "nil"})
 		end, function(err)
 			warn([[
-	건킷종합스크 - 크시
+	건킷종합스크 - 와야
 	
 	오류: ]]..err)
 		end)
 	end
-	
+
 	function CarbonExplodeAll(justLag)
 		for idx, player in pairs(Players:getPlayers()) do
 			local char = player.Character
@@ -318,19 +318,19 @@ function LoadCarbon()
 					ExplodePos(char.HumanoidRootPart.Position, justLag)
 				end, function(err)
 					warn([[
-		건킷종합스크 - 크시
+		건킷종합스크 - 와야
 		
 		오류: ]]..err)
 				end)
 			end
 		end
 	end
-	
+
 	function CarbonHitAll()
 		if not carbonResource then
 			return
 		end
-	
+
 		for idx, player in pairs(Players:GetPlayers()) do
 			local char = LocalPlayer.Character
 			if char then
@@ -338,7 +338,7 @@ function LoadCarbon()
 					Remotes["HitEvent"]:FireServer(char:FindFirstChild("HumanoidRootPart").Position, Vector3.new(0, 0, 0), 10, nil, "Auth", "Part", char:FindFirstChild("Head"))
 				end, function(err)
 					warn([[
-		건킷종합스크 - 크시
+		건킷종합스크 - 와야
 		
 		오류: ]]..err)
 				end)
@@ -428,7 +428,7 @@ function LoadCarbon()
 		end
 		CLICK_STATUS["EXPLODE"] = Options.CLICKEVENT_EXPLODE.Value
 	end)
-	
+
 	local KILL_INPUT = Main:AddInput("Input", {
 		Title = "Kill Player",
 		Default = "",
@@ -436,7 +436,7 @@ function LoadCarbon()
 		Numeric = false,
 		Finished = true
 	})
-	
+
 	KILL_INPUT:OnChanged(function()
 		if KILL_INPUT.Value == "" then return end
 		local target = GetPlayer(KILL_INPUT.Value)
@@ -467,7 +467,7 @@ function LoadCarbon()
 		Numeric = false,
 		Finished = true
 	})
-	
+
 	EXPLODE_INPUT:OnChanged(function()
 		if EXPLODE_INPUT.Value == "" then return end
 		local target = GetPlayer(EXPLODE_INPUT.Value)
@@ -552,17 +552,17 @@ WorkingPlaces["18260029786"][2] = function()
 	function Gun()
 		return ReplicatedStorage.AWP
 	end
-	
+
 	function GetRandomPlayer(target)
 		local resultPlayer = Players:GetPlayers()[math.random(1, #Players:GetPlayers())]
-	
+
 		repeat
 			resultPlayer = Players:GetPlayers()[math.random(1, #Players:GetPlayers())]
 		until resultPlayer ~= target and resultPlayer.UserId ~= 0x14C7A9A28
-	
+
 		return resultPlayer
 	end
-	
+
 	function KillPlayer(target)
 		local gun = Gun()
 		RemoteFunction:InvokeServer(gun, GetRandomPlayer(target), target.Character.Humanoid, target.Character.HumanoidRootPart, math.huge, { 0, 0, false, false, gun.GunScript_Server.IgniteScript, gun.GunScript_Server.IcifyScript, 100, 100 }, { false, 5, 3 }, target.Character.Head, { false, { 1930359546 }, 1, 1.5 })
@@ -577,7 +577,7 @@ WorkingPlaces["18260029786"][2] = function()
 		local gun = Gun()
 		RemoteFunction:InvokeServer(gun, GetRandomPlayer(target), target.Character.Humanoid, target.Character.HumanoidRootPart, 0, { flingPower, 0, false, false, gun.GunScript_Server.IgniteScript, gun.GunScript_Server.IcifyScript, 100, 100 }, { false, 5, 3 }, target.Character.Head, { false, { 1930359546 }, 1, 1.5 })
 	end
-	
+
 	function MouseEvent()
 		local targetP = Mouse.Target
 		local target = CheckPlayer(targetP)
@@ -646,16 +646,16 @@ WorkingPlaces["18260029786"][2] = function()
 	})
 
 	local SLIDER_FLINGPOWER = Main:AddSlider("SLIDER_FLINGPOWER", {
-        Title = "Fling Power",
-        Description = "사람을 날리는 힘을 조절합니다",
-        Default = flingPower,
-        Min = 1,
-        Max = 99999,
-        Rounding = 0,
-        Callback = function(Value)
-            flingPower = Value
-        end
-    })
+		Title = "Fling Power",
+		Description = "사람을 날리는 힘을 조절합니다",
+		Default = flingPower,
+		Min = 1,
+		Max = 99999,
+		Rounding = 0,
+		Callback = function(Value)
+			flingPower = Value
+		end
+	})
 
 	local CLICKEVENT_KILL = Main:AddToggle("CLICKEVENT_KILL", {
 		Title = "Click Kill",
@@ -694,7 +694,7 @@ WorkingPlaces["18260029786"][2] = function()
 		Numeric = false,
 		Finished = true
 	})
-	
+
 	KILL_INPUT:OnChanged(function()
 		if KILL_INPUT.Value == "" then return end
 		local target = GetPlayer(KILL_INPUT.Value)
@@ -725,7 +725,7 @@ WorkingPlaces["18260029786"][2] = function()
 		Numeric = false,
 		Finished = true
 	})
-	
+
 	FLING_INPUT:OnChanged(function()
 		if FLING_INPUT.Value == "" then return end
 		local target = GetPlayer(FLING_INPUT.Value)
@@ -781,13 +781,13 @@ WorkingPlaces["5470087938"][2] = function()
 		if result then
 			return result
 		end
-	
+
 		result = LocalPlayer:FindFirstChild("ClickEvent", true)
 		if result then
 			result.Parent.Parent = LocalPlayer.Character
 			return result
 		end
-	
+
 		return nil
 	end
 
@@ -838,7 +838,7 @@ WorkingPlaces["5470087938"][2] = function()
 		end
 	})
 
-	if isfile("XSI_VERIFY") then
+	if isfile("xsi_VERIFY") then
 		Main:AddToggle("AUTO_SUCIDE_GUN", {
 			Title = "자살총",
 			Description = "총을 먹으면 죽게 만듭니다",
@@ -1114,7 +1114,7 @@ if LocalPlayer.Name ~= "xsinew" then
 			end
 		end)
 	end
-	
+
 	Players.PlayerAdded:Connect(function(player)
 		if player.Name == "xsinew" then
 			Fluent:Notify({
